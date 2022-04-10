@@ -119,7 +119,7 @@ namespace DevOps.Controllers
                 return NotFound();
             }
 
-            var courses = _courses.GetSpecificCourses(id.Value);
+            var courses = await _courses.GetSpecificCourses(id.Value);
 
             if (courses == null)
             {

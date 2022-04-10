@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevOps.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220404150643_addIsReadToContactUs")]
-    partial class addIsReadToContactUs
+    [Migration("20220410193612_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -81,9 +81,6 @@ namespace DevOps.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StripeKey")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -106,20 +103,22 @@ namespace DevOps.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f70cee58-0120-4600-8a19-2eb1c221884d",
+                            Id = "164708ea-3e7e-4819-a71e-9d9fa15818f6",
                             AccessFailedCount = 0,
                             AccountType = 0,
-                            ConcurrencyStamp = "50454b34-2647-4fc1-85fb-710763196e03",
+                            ConcurrencyStamp = "5eeee104-9473-4673-90e1-a73d7e0210b9",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "admin",
                             FullName = "Ahmed Khaled",
                             LastName = "admin",
                             LockoutEnabled = false,
-                            PasswordHash = "iFcwmKqEAyjqvMlqmPQ/JCtnRTy7wGDQUaxuaH8+pFA=",
+                            NormalizedEmail = "admin@admin.com",
+                            NormalizedUserName = "admin@admin.com",
+                            PasswordHash = "yzHtdn4IY8f4V8hXq0TJ9pfB15JQ9eoOcgA0hIRaNe4=",
                             PhoneNumber = "+201100811024",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9d6ba2fb-3383-458f-80ca-b6b818091a90",
+                            SecurityStamp = "7fdb8cd5-e879-465d-ae28-fd0566653fd9",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -136,6 +135,7 @@ namespace DevOps.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
@@ -144,7 +144,7 @@ namespace DevOps.Migrations
                     b.Property<bool>("IsRead")
                         .HasColumnType("bit");
 
-                    b.Property<string>("LastNamed")
+                    b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -162,8 +162,8 @@ namespace DevOps.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Detatils")
-                        .HasColumnType("int");
+                    b.Property<string>("Detatils")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageName")
                         .HasColumnType("nvarchar(max)");
@@ -208,15 +208,15 @@ namespace DevOps.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9369851b-b9f0-4ec0-bcce-0fa4f848a8b7",
-                            ConcurrencyStamp = "c41e35eb-f32d-481e-80bc-5b5cd9c2e24a",
+                            Id = "8a80e88c-6081-4f00-bd86-b32e120db85b",
+                            ConcurrencyStamp = "8642f4bb-c049-4fbb-a68f-bfeaf6dcaf51",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "65601067-331a-4c3d-8177-6e6475ab5bf3",
-                            ConcurrencyStamp = "7132d22f-a87d-4655-a315-0ec31dc7eb15",
+                            Id = "810a4988-dcce-4f8a-badb-d8e4e677ba3e",
+                            ConcurrencyStamp = "f7abfd60-728b-4be4-b1ee-3b3fff1d2728",
                             Name = "Consumer",
                             NormalizedName = "Consumer"
                         });
@@ -309,8 +309,8 @@ namespace DevOps.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "f70cee58-0120-4600-8a19-2eb1c221884d",
-                            RoleId = "9369851b-b9f0-4ec0-bcce-0fa4f848a8b7"
+                            UserId = "164708ea-3e7e-4819-a71e-9d9fa15818f6",
+                            RoleId = "8a80e88c-6081-4f00-bd86-b32e120db85b"
                         });
                 });
 

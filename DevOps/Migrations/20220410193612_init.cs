@@ -30,7 +30,6 @@ namespace DevOps.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StripeKey = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AccountType = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -59,10 +58,11 @@ namespace DevOps.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastNamed = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsRead = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -77,7 +77,7 @@ namespace DevOps.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Detatils = table.Column<int>(type: "int", nullable: false),
+                    Detatils = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -194,22 +194,22 @@ namespace DevOps.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "53c7ec8e-9783-4994-a590-901ac130e0b1", "4c02824e-40a1-46f9-8738-75dd02ebb286", "Admin", "Admin" });
+                values: new object[] { "8a80e88c-6081-4f00-bd86-b32e120db85b", "8642f4bb-c049-4fbb-a68f-bfeaf6dcaf51", "Admin", "Admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "f892adf5-6e38-4ec7-b8a7-c613be61316a", "4806e0ad-5aac-41ef-bf3c-4eaabfdb20aa", "Consumer", "Consumer" });
+                values: new object[] { "810a4988-dcce-4f8a-badb-d8e4e677ba3e", "f7abfd60-728b-4be4-b1ee-3b3fff1d2728", "Consumer", "Consumer" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "AccountType", "Address", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "FullName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "StripeKey", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "a8541072-b973-4125-9d36-5d69d1d72ec8", 0, 0, null, "986ff695-fe18-4024-b3bc-0759c21aefa2", "admin@admin.com", true, "admin", "Ahmed Khaled", "admin", false, null, null, null, "iFcwmKqEAyjqvMlqmPQ/JCtnRTy7wGDQUaxuaH8+pFA=", "+201100811024", false, "6733d660-6ad4-46fe-b7f6-d346d86f8047", null, false, "admin@admin.com" });
+                columns: new[] { "Id", "AccessFailedCount", "AccountType", "Address", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "FullName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "164708ea-3e7e-4819-a71e-9d9fa15818f6", 0, 0, null, "5eeee104-9473-4673-90e1-a73d7e0210b9", "admin@admin.com", true, "admin", "Ahmed Khaled", "admin", false, null, "admin@admin.com", "admin@admin.com", "yzHtdn4IY8f4V8hXq0TJ9pfB15JQ9eoOcgA0hIRaNe4=", "+201100811024", false, "7fdb8cd5-e879-465d-ae28-fd0566653fd9", false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "53c7ec8e-9783-4994-a590-901ac130e0b1", "a8541072-b973-4125-9d36-5d69d1d72ec8" });
+                values: new object[] { "8a80e88c-6081-4f00-bd86-b32e120db85b", "164708ea-3e7e-4819-a71e-9d9fa15818f6" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

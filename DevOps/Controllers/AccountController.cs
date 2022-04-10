@@ -109,6 +109,8 @@ namespace DevOps.Controllers
                 return View(model);
             }
 
+            var t = userManager.Users.ToList();
+
             var currentUser = await userManager.FindByEmailAsync(model.Email);
 
             if (currentUser == null)

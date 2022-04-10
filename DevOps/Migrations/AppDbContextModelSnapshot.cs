@@ -101,20 +101,22 @@ namespace DevOps.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "40ce2966-bb41-47e7-9595-06edda5d29fc",
+                            Id = "164708ea-3e7e-4819-a71e-9d9fa15818f6",
                             AccessFailedCount = 0,
                             AccountType = 0,
-                            ConcurrencyStamp = "6eca78ce-aa05-47bd-bcd3-3eedac41e560",
+                            ConcurrencyStamp = "5eeee104-9473-4673-90e1-a73d7e0210b9",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "admin",
                             FullName = "Ahmed Khaled",
                             LastName = "admin",
                             LockoutEnabled = false,
-                            PasswordHash = "iFcwmKqEAyjqvMlqmPQ/JCtnRTy7wGDQUaxuaH8+pFA=",
+                            NormalizedEmail = "admin@admin.com",
+                            NormalizedUserName = "admin@admin.com",
+                            PasswordHash = "yzHtdn4IY8f4V8hXq0TJ9pfB15JQ9eoOcgA0hIRaNe4=",
                             PhoneNumber = "+201100811024",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "98c3f6a6-433a-4716-8c88-85f390214b02",
+                            SecurityStamp = "7fdb8cd5-e879-465d-ae28-fd0566653fd9",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -131,6 +133,7 @@ namespace DevOps.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
@@ -203,15 +206,15 @@ namespace DevOps.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b866506a-8120-4608-afeb-3d648b2a2053",
-                            ConcurrencyStamp = "0b62e972-da06-40e2-9ff3-a71e05d690dc",
+                            Id = "8a80e88c-6081-4f00-bd86-b32e120db85b",
+                            ConcurrencyStamp = "8642f4bb-c049-4fbb-a68f-bfeaf6dcaf51",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "5dca0a08-698c-4ea7-a9e8-b0ddd6ed164b",
-                            ConcurrencyStamp = "91cbdcb7-44fc-4d0a-8049-ad1c87098c72",
+                            Id = "810a4988-dcce-4f8a-badb-d8e4e677ba3e",
+                            ConcurrencyStamp = "f7abfd60-728b-4be4-b1ee-3b3fff1d2728",
                             Name = "Consumer",
                             NormalizedName = "Consumer"
                         });
@@ -304,8 +307,8 @@ namespace DevOps.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "40ce2966-bb41-47e7-9595-06edda5d29fc",
-                            RoleId = "b866506a-8120-4608-afeb-3d648b2a2053"
+                            UserId = "164708ea-3e7e-4819-a71e-9d9fa15818f6",
+                            RoleId = "8a80e88c-6081-4f00-bd86-b32e120db85b"
                         });
                 });
 

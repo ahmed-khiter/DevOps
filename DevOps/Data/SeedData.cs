@@ -26,9 +26,11 @@ namespace DevOps.Data
                                    {
                                        Id = userId,
                                        UserName ="admin@admin.com",
+                                       NormalizedUserName="admin@admin.com",
                                        FirstName = "admin",
                                        LastName = "admin",
                                        Email = "admin@admin.com",
+                                       NormalizedEmail="admin@admin.com",
                                        FullName = "Ahmed Khaled",
                                        EmailConfirmed = true,
                                        PhoneNumber = "+201100811024",
@@ -78,6 +80,12 @@ namespace DevOps.Data
         {
             // generate a 128-bit salt using a cryptographically strong random sequence of nonzero values
             byte[] salt = new byte[128 / 8];
+
+
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(salt);
+            }
 
             // derive a 256-bit subkey (use HMACSHA256 with 100,000 iterations)
             string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
