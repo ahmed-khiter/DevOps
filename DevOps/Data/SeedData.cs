@@ -15,27 +15,32 @@ namespace DevOps.Data
         {
             try
             {
-                string password = "_Aa123456789";
-                string passwordAfterHash = SeedData.PasswordHash(password);
+                //string password = "_Aa123456789";
+                //string passwordAfterHash = SeedData.PasswordHash(password);
                 var userId = Guid.NewGuid().ToString();
-                    
+
+                var user = new BaseUser()
+                {
+                    Id = userId,
+                    UserName ="admin@admin.com",
+                    NormalizedUserName="admin@admin.com",
+                    FirstName = "admin",
+                    LastName = "admin",
+                    Email = "admin@admin.com",
+                    NormalizedEmail="admin@admin.com",
+                    FullName = "Ahmed Khaled",
+                    EmailConfirmed = true,
+                    PhoneNumber = "+201100811024"
+                };
+
+                var password = new PasswordHasher<BaseUser>();
+                var hashed = password.HashPassword(user, "_Aa123456789");
+                user.PasswordHash = hashed;
+
                 builder.Entity<BaseUser>(entity =>
                 {
                     entity.HasData(
-                                   new BaseUser()
-                                   {
-                                       Id = userId,
-                                       UserName ="admin@admin.com",
-                                       NormalizedUserName="admin@admin.com",
-                                       FirstName = "admin",
-                                       LastName = "admin",
-                                       Email = "admin@admin.com",
-                                       NormalizedEmail="admin@admin.com",
-                                       FullName = "Ahmed Khaled",
-                                       EmailConfirmed = true,
-                                       PhoneNumber = "+201100811024",
-                                       PasswordHash = passwordAfterHash
-                                   }
+                                   user
                                   );
                 });
 

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevOps.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220410193612_init")]
+    [Migration("20220410194621_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -103,10 +103,10 @@ namespace DevOps.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "164708ea-3e7e-4819-a71e-9d9fa15818f6",
+                            Id = "162e029c-4dd5-4d69-8a21-0eadc10bcb3c",
                             AccessFailedCount = 0,
                             AccountType = 0,
-                            ConcurrencyStamp = "5eeee104-9473-4673-90e1-a73d7e0210b9",
+                            ConcurrencyStamp = "f75867e2-91a7-4012-be85-8711f530693c",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "admin",
@@ -115,10 +115,10 @@ namespace DevOps.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@admin.com",
                             NormalizedUserName = "admin@admin.com",
-                            PasswordHash = "yzHtdn4IY8f4V8hXq0TJ9pfB15JQ9eoOcgA0hIRaNe4=",
+                            PasswordHash = "AQAAAAEAACcQAAAAEN/2Eo7w09rMfzOJJ5DmDdoz6VTPed+1f3O3nERNVs0OXsW12rXVvszxJ65DJjpoXQ==",
                             PhoneNumber = "+201100811024",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7fdb8cd5-e879-465d-ae28-fd0566653fd9",
+                            SecurityStamp = "397ea133-376a-4d64-9c86-b8665bdc3338",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -208,15 +208,15 @@ namespace DevOps.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8a80e88c-6081-4f00-bd86-b32e120db85b",
-                            ConcurrencyStamp = "8642f4bb-c049-4fbb-a68f-bfeaf6dcaf51",
+                            Id = "7c8b761a-4720-4a69-a827-5bb057b5d24c",
+                            ConcurrencyStamp = "f9e989f8-ba21-46b8-8fc3-0b0dd9c9888c",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "810a4988-dcce-4f8a-badb-d8e4e677ba3e",
-                            ConcurrencyStamp = "f7abfd60-728b-4be4-b1ee-3b3fff1d2728",
+                            Id = "55675ecb-04c7-47b0-9c28-ccf0d9c71b35",
+                            ConcurrencyStamp = "e6e5bfa7-4d24-4f4c-850f-5b0a8d45307a",
                             Name = "Consumer",
                             NormalizedName = "Consumer"
                         });
@@ -309,8 +309,8 @@ namespace DevOps.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "164708ea-3e7e-4819-a71e-9d9fa15818f6",
-                            RoleId = "8a80e88c-6081-4f00-bd86-b32e120db85b"
+                            UserId = "162e029c-4dd5-4d69-8a21-0eadc10bcb3c",
+                            RoleId = "7c8b761a-4720-4a69-a827-5bb057b5d24c"
                         });
                 });
 
