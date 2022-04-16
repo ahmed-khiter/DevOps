@@ -45,7 +45,7 @@ namespace DevOps.StaticClasses
             {
                 o.RequireHttpsMetadata = false;
                 o.SaveToken = false;
-                o.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                o.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = false,
@@ -55,9 +55,6 @@ namespace DevOps.StaticClasses
                     ValidAudience = Configuration["JWT:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Key"]))
                 };
-            }).AddCookie(options =>
-            {
-                options.LoginPath = "/account/google-login";
             });
 
 

@@ -58,6 +58,7 @@ namespace DevOps
 
             //Authantication JWT injections
             CompositionRoot.InjectAuthantication(services, Configuration);
+            CompositionRoot.InjectDependencies(services);
 
             services.AddSwaggerGen(c =>
             {
@@ -110,7 +111,7 @@ namespace DevOps
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("./v1/swagger.json", "DevOps v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DevOps v1"));
             }
             else
             {
@@ -119,6 +120,8 @@ namespace DevOps
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors("AllowAll");
 
             app.UseStaticFiles();
 

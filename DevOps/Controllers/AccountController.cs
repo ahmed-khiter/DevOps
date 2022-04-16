@@ -68,6 +68,7 @@ namespace DevOps.Controllers
         }
 
 
+        [HttpPost("logout")]
         public async Task<IActionResult> logout()
         {
             await signInManager.SignOutAsync();
