@@ -1,8 +1,11 @@
 using DevOps.Data;
 using DevOps.Helper;
+using DevOps.Interfaces.Auth;
 using DevOps.Models;
+using DevOps.Services.AuthManagement;
 using DevOps.Services.ContactUsManagement;
 using DevOps.Services.CoursesManagement;
+using DevOps.StaticClasses;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +34,7 @@ namespace DevOps
         public void ConfigureServices(IServiceCollection services)
         {
             //MVC
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddControllers().AddRazorRuntimeCompilation();
 
             // Database
             services.AddDbContext<AppDbContext>(options =>
@@ -52,11 +56,50 @@ namespace DevOps
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
+            //Authantication JWT injections
+            CompositionRoot.InjectAuthantication(services, Configuration);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "DevOps", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please insert token.",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "Bearer"
+                });
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First()); //This line
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
+
+            });
+
+
             services.AddSingleton(typeof(FileManager));
 
             services.AddScoped<ContactUsService>();
             services.AddScoped<CoursesServices>();
             services.AddScoped<FileManager>();
+            services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IJwt, JwtToken>();
+            services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IRegisterService, RegisterService>();
 
 
 
@@ -67,6 +110,7 @@ namespace DevOps
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("./v1/swagger.json", "DevOps v1"));
             }
             else
             {
@@ -83,12 +127,10 @@ namespace DevOps
             app.UseAuthentication();
 
             app.UseAuthorization();
-        
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
         }
     }

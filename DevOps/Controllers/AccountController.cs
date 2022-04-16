@@ -9,131 +9,70 @@ using DevOps.ViewModels.Accounts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using DevOps.Constants;
+using DevOps.Interfaces.Auth;
 
 namespace DevOps.Controllers
 {
 
-    [AllowAnonymous]
-    public class AccountController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AccountController : ControllerBase
     {
         private readonly UserManager<BaseUser> userManager;
         private readonly SignInManager<BaseUser> signInManager;
+        private readonly IRegisterService registerService;
+        private readonly ILoginService loginService;
 
         public AccountController
         (
             UserManager<BaseUser> userManager,
-            SignInManager<BaseUser> signInManager
+            SignInManager<BaseUser> signInManager,
+            IRegisterService authService, ILoginService loginService
         )
         {
+            this.registerService = authService;
+            this.loginService = loginService;
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
 
-        [HttpGet]
-        public IActionResult Register()
+        [HttpPost("Register")]
+        public async Task<IActionResult> RegisterAsync([FromForm] RegisterDto model)
         {
-            if (signInManager.IsSignedIn(User))
-            {
-                return Redirect("/");
-            }
-
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
-        {
-            if (signInManager.IsSignedIn(User))
-            {
-                return Redirect("/");
-            }
 
             if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+                return BadRequest(ModelState);
 
-            var currentUser = await userManager.FindByEmailAsync(model.Email);
+            var result = await registerService.RegisterAsync(model);
 
-            if (currentUser != null)
-            {
-                ModelState.AddModelError("Email", "Email is already exists");
+            if (result.IsAuthenticated == false)
+                return BadRequest(result.Messages);
 
-                return View(model);
-            }
+            return Ok(result);
 
-            var user = new BaseUser
-            {
-                AccountType = Enum.AccountType.Admin,
-                FullName = model.FirstName + " " + model.LastName,
-                Email = model.Email,
-                UserName = model.Email,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                EmailConfirmed = true,
-                Address = model.Address,
-                PhoneNumber = model.Phonenumber
-            };
-
-            var result = await userManager.CreateAsync(user, model.Password);
-
-            if (result.Succeeded)
-            {
-                await signInManager.SignInAsync(user, true);
-                await userManager.AddToRoleAsync(user, Roles.Admin);
-
-                ViewData["Success"] = "Success register, welcome to Health Herb";
-
-                return Redirect("/");
-            }
-
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-
-            return View(model);
         }
 
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
 
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        [HttpPost("Login")]
+        public async Task<IActionResult> LoginAsync([FromForm] LoginDto model)
         {
             if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+                return BadRequest(ModelState);
 
-            var currentUser = await userManager.FindByEmailAsync(model.Email);
+            var result = await loginService.GetTokenAsync(model);
 
-            if (currentUser == null)
-            {
-                ModelState.AddModelError(string.Empty, "Your email or password is wrong");
+            if (result.IsAuthenticated == false)
+                return BadRequest(result.Messages);
 
-                return View(model);
-            }
-
-            var result = await signInManager.PasswordSignInAsync(currentUser, model.Password, isPersistent: model.RememberMe, lockoutOnFailure: false);
-
-            if (!result.Succeeded)
-            {
-                ModelState.AddModelError(string.Empty, "Your email or password is wrong");
-
-                return View(model);
-            }
-            ViewData["Success"] = "Welcome to DevOps as an admin";
-            return Redirect("/");
+            return Ok(result);
         }
+
 
         public async Task<IActionResult> logout()
         {
             await signInManager.SignOutAsync();
-            return Redirect("/");
+
+            return Ok();
         }
 
     }

@@ -8,10 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using DevOps.Data;
 using DevOps.Models;
 using DevOps.Services.ContactUsManagement;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DevOps.Controllers
 {
-    public class ContactUsController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ContactUsController : ControllerBase
     {
         private readonly ContactUsService _contactUsService;
         public ContactUsController(ContactUsService contactUsService)
@@ -21,17 +24,23 @@ namespace DevOps.Controllers
         }
 
         // GET: ContactUs
+        [HttpGet("index")]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            return View(await _contactUsService.GetAll());
+            return Ok(await _contactUsService.GetAll());
         }
 
+        [Authorize]
+        [HttpGet("getAllActiveContactUs")]
         public async Task<IActionResult> GetAllActiveContactUs()
         {
-            return View("Index", await _contactUsService.GetUnReadContact());
+            return Ok(await _contactUsService.GetUnReadContact());
         }
 
         // GET: ContactUs/Details/5
+        [HttpGet("details")]
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,17 +55,11 @@ namespace DevOps.Controllers
                 return NotFound();
             }
 
-            return View(contactUs);
-        }
-
-        // GET: ContactUs/Create
-        public IActionResult Create()
-        {
-            return View();
+            return Ok(contactUs);
         }
 
         // POST: ContactUs/Create
-        [HttpPost]
+        [HttpPost("create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ContactUs contactUs)
         {
@@ -68,10 +71,13 @@ namespace DevOps.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(contactUs);
+            return Ok(contactUs);
         }
 
         // GET: ContactUs/Edit/5
+
+        [HttpGet("edit")]
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,11 +91,12 @@ namespace DevOps.Controllers
             {
                 return NotFound();
             }
-            return View(contactUs);
+            return Ok(contactUs);
         }
 
         // POST: ContactUs/Edit/5
-        [HttpPost]
+        [HttpPost("edit")]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, ContactUs contactUs)
         {
@@ -99,7 +106,7 @@ namespace DevOps.Controllers
             }
 
             if (!ModelState.IsValid)
-                return View(contactUs);
+                return BadRequest(contactUs);
 
             var result = await _contactUsService.Edit(contactUs);
 
@@ -108,22 +115,8 @@ namespace DevOps.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: ContactUs/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-                return NotFound();
-
-            var contactUs = await _contactUsService.GetSpecific(id.Value);
-
-            if (contactUs == null)
-                return NotFound();
-
-            return View(contactUs);
-        }
-
         // POST: ContactUs/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

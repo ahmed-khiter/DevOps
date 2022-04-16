@@ -12,7 +12,9 @@ using DevOps.ViewModels.Courses;
 
 namespace DevOps.Controllers
 {
-    public class CoursesController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CoursesController : ControllerBase
     {
         private readonly CoursesServices _courses;
         public CoursesController(CoursesServices courses)
@@ -21,12 +23,14 @@ namespace DevOps.Controllers
         }
 
         // GET: Courses
+        [HttpGet("index")]
         public async Task<IActionResult> Index()
         {
-            return View(await _courses.GetALllCourses());
+            return Ok(await _courses.GetALllCourses());
         }
 
         // GET: Courses/Details/5
+        [HttpGet("details")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -41,22 +45,17 @@ namespace DevOps.Controllers
                 return NotFound();
             }
 
-            return View(courses);
+            return Ok(courses);
         }
 
-        // GET: Courses/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
 
         // POST: Courses/Create
-        [HttpPost]
+        [HttpPost("create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create( CreateCourseViewModel courses)
         {
             if (!ModelState.IsValid)
-                return View(courses);
+                return Ok(courses);
 
             var result = await _courses.CreateCourse(courses);
 
@@ -65,10 +64,11 @@ namespace DevOps.Controllers
                 return BadRequest(courses);
             }
 
-            return RedirectToAction(nameof(Index));
+            return Ok(courses);
         }
 
-        // GET: Courses/Edit/5
+
+        [HttpGet("edit")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id is null)
@@ -88,11 +88,11 @@ namespace DevOps.Controllers
                 Title   = cours.Title,
             };
 
-            return View(model);
+            return Ok(model);
         }
 
         // POST: Courses/Edit/{id}
-        [HttpPost]
+        [HttpPost("edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditCourseViewModel courses)
         {
@@ -102,7 +102,7 @@ namespace DevOps.Controllers
             }
 
             if (!ModelState.IsValid)
-                return View(courses);
+                return BadRequest(courses);
 
            var model =  await _courses.EditCourse(courses);
 
@@ -111,36 +111,18 @@ namespace DevOps.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Courses/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var courses = await _courses.GetSpecificCourses(id.Value);
-
-            if (courses == null)
-            {
-                return NotFound();
-            }
-
-            return View(courses);
-        }
 
         // POST: Courses/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-          
             var sucess = await _courses.DeleteCourse(id);
 
             if (!sucess)
                 return NotFound(id);
 
-            return RedirectToAction(nameof(Index));
+            return Ok();
         }
 
 
